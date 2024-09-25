@@ -7,13 +7,14 @@ import android.widget.SeekBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RacingActivity extends AppCompatActivity {
     SeekBar horse1, horse2, horse3;
     Button startButton;
-    int[] selectedHorse;
-    int betAmount, betResult = 0;
+    HashMap<Integer,Integer> selectedHorse = new HashMap<>();
+    int betResult = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +23,18 @@ public class RacingActivity extends AppCompatActivity {
         //Initialize the views
         Projecting();
         //Start the race
-        startButton.setOnClickListener(v -> startRace());
+        startButton.setOnClickListener(v -> {
+            startButton.setEnabled(false);
+            startRace();
+        });
     }
 
     private void startRace() {
         horse1.setProgress(0);
         horse2.setProgress(0);
         horse3.setProgress(0);
+        betResult = 0;
+        //Start the timer
         final CountDownTimer timer = new CountDownTimer(30000, 300) {
             @Override
             public void onTick(long l) {
@@ -66,25 +72,13 @@ public class RacingActivity extends AppCompatActivity {
     }
 
     private int finishRace(int res){
-        if(Arrays.stream(selectedHorse).count() < 2){
-            //Logic for single horse bet
-            if (Arrays.stream(selectedHorse).anyMatch(s -> s == res)){
-                betResult += betAmount;
-            }
-            else{
-                betResult -= betAmount;
-            }
+        for (Map.Entry<Integer, Integer> entry : selectedHorse.entrySet()){
+            if(entry.getKey() == res)
+                betResult += entry.getValue();
+            else
+                betResult -= entry.getValue();
         }
-        else{
-            //Logic for multiple horses bet
-            long horseCount = Arrays.stream(selectedHorse).count();
-            if (Arrays.stream(selectedHorse).anyMatch(s -> s == res)){
-                betResult = (int)(- betAmount * (horseCount - 2));
-            }
-            else{
-                betResult = (int)(- betAmount * horseCount);
-            }
-        }
+        startButton.setEnabled(true);
         return betResult;
     }
 
@@ -93,6 +87,9 @@ public class RacingActivity extends AppCompatActivity {
         horse1 = findViewById(R.id.horse1);
         horse2 = findViewById(R.id.horse2);
         horse3 = findViewById(R.id.horse3);
+        selectedHorse.put(1,100);
+        selectedHorse.put(2,200);
+        selectedHorse.put(3,500);
 
         startButton = findViewById(R.id.btn_start);
     }

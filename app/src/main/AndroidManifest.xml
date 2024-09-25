@@ -19,14 +19,13 @@
         </activity>
         <activity
             android:name=".BettingActivity"
-            android:exported="true">
+            android:exported="false">
         </activity>
         <activity
             android:name=".RacingActivity"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
