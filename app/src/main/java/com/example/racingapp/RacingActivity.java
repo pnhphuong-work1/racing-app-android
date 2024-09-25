@@ -1,5 +1,6 @@
 package com.example.racingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
@@ -83,6 +84,8 @@ public class RacingActivity extends AppCompatActivity {
     }
 
     private void Projecting(){
+        Intent intent = getIntent();
+
         //Find the horse views
         horse1 = findViewById(R.id.horse1);
         horse2 = findViewById(R.id.horse2);
