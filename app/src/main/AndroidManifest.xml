@@ -18,11 +18,11 @@
 
         </activity>
         <activity
-            android:name=".BettingActivity"
+            android:name=".RacingActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".RacingActivity"
+            android:name=".BettingActivity"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
