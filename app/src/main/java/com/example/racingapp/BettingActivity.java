@@ -61,11 +61,7 @@ public class BettingActivity extends AppCompatActivity {
 
     private void CheckBalance() {
         if (balance <= 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Error");
-            builder.setMessage("You don't have enough balance to place this bet");
-            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
-            builder.show();
+            showErrorDialog("Error", "You don't have enough balance to place a bet");
             return;
         }
 
@@ -76,14 +72,18 @@ public class BettingActivity extends AppCompatActivity {
                 .sum();
 
         if (totalBet > balance) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Error");
-            builder.setMessage("You don't have enough balance to place this bet");
-            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
-            builder.show();
+            showErrorDialog("Error", "You don't have enough balance to place this bet");
             return;
         }
         MoveToRace();
+    }
+
+    private void showErrorDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 
     private void chooseHorse(int horse, int amount) {
