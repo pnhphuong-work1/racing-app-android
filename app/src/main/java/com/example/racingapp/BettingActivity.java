@@ -52,7 +52,7 @@ public class BettingActivity extends AppCompatActivity {
         // If the intent is null, set the balance to 1000 and the username to "user"
         balance = intent.getIntExtra("balance", 1000);
         username = intent.getStringExtra("username");
-        balanceText.setText("Balance: " + balance);
+        balanceText.setText(getString(R.string.balance, balance));
         if (username == null) {
             username = "user";
         }
@@ -109,6 +109,7 @@ public class BettingActivity extends AppCompatActivity {
     }
 
     private void MoveToRace() {
+        intent.putExtra("balance", balance);
         intent.putExtra("selectedHorse", selectedHorse);
         startActivity(intent);
     }
