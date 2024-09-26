@@ -31,6 +31,8 @@ public class BettingActivity extends AppCompatActivity {
         setContentView(R.layout.betting_view);
         Projecting();
 
+        setChooseHorseEvent();
+
         startButton.setOnClickListener(v -> {
             betHorse();
             CheckBalance();
@@ -48,6 +50,9 @@ public class BettingActivity extends AppCompatActivity {
         betAmount2 = findViewById(R.id.betAmount2);
         betAmount3 = findViewById(R.id.betAmount3);
         startButton = findViewById(R.id.startRaceButton);
+        betAmount1.setEnabled(false);
+        betAmount2.setEnabled(false);
+        betAmount3.setEnabled(false);
         // Get the balance and username from the intent
         // If the intent is null, set the balance to 1000 and the username to "user"
         balance = intent.getIntExtra("balance", 1000);
@@ -71,6 +76,11 @@ public class BettingActivity extends AppCompatActivity {
                 .mapToInt(Integer::intValue)
                 .sum();
 
+        if (totalBet == 0) {
+            showErrorDialog("Error", "You must place a bet to start the race");
+            return;
+        }
+
         if (totalBet > balance) {
             showErrorDialog("Error", "You don't have enough balance to place this bet");
             return;
@@ -84,6 +94,20 @@ public class BettingActivity extends AppCompatActivity {
         builder.setMessage(message);
         builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
         builder.show();
+    }
+
+    private void setChooseHorseEvent() {
+        horse1.setOnClickListener(v -> {
+            betAmount1.setEnabled(horse1.isChecked());
+        });
+
+        horse2.setOnClickListener(v -> {
+            betAmount2.setEnabled(horse2.isChecked());
+        });
+
+        horse3.setOnClickListener(v -> {
+            betAmount3.setEnabled(horse3.isChecked());
+        });
     }
 
     private void chooseHorse(int horse, int amount) {
