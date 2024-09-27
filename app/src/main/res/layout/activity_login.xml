@@ -7,7 +7,9 @@
     android:gravity="center"
     android:padding="16dp"
     android:background="@drawable/horse_background"
-    tools:context=".Login">
+    tools:context=".Login"
+    android:id="@+id/LoginPage"
+    >
 
     <!-- Sign In Form Title -->
 
@@ -22,32 +24,37 @@
         android:text="Racing Betting Game"
         android:textSize="36sp"
         android:textStyle="bold"
-        android:textColor="#ED6129"/>
+        android:textColor="#ED6129"
+
+        />
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
         android:padding="10dp"
+        android:minHeight="48dp"
         android:background="@android:drawable/editbox_background"
         android:layout_marginBottom="10dp"/>
 
     <!-- Password Input -->
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="10dp"
         android:background="@android:drawable/editbox_background"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:minHeight="48dp"
+        />
 
 
     <!-- Sign In Button -->
     <Button
-        android:id="@+id/btnSignIn"
+        android:id="@+id/SignInLoginPage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SIGN IN"
@@ -60,3 +67,56 @@
         android:layout_gravity="center"/>
 
 </LinearLayout>
+
+<!--<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="5"
+    android:orientation="vertical"
+    android:id="@+id/LoginPage"
+
+    >-->
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign In form"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:hint="Username"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        />
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:hint="Password"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        />
+    <TextView
+        android:id="@+id/NotAccountyet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="NO ACCOUNT YET? CREATE ONE"
+        android:textColor="@android:color/holo_blue_light"
+        android:autoLink="web"
+        android:clickable="true"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:minHeight="48dp"/>
+    <Button
+        android:id="@+id/SignInLoginPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIGN IN"
+        ></Button>-->
+
+<!--</LinearLayout>-->
+
