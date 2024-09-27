@@ -43,9 +43,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        userList.add(new User("user1", "password1", 100.0));
-        userList.add(new User("user2", "password2", 200.0));
-        userList.add(new User("user3", "password3", 300.0));
+        userList.add(new User("user1", "password1", 100,"Quang"));
+        userList.add(new User("user2", "password2", 200,"Quang2"));
+        userList.add(new User("user3", "password3", 300,"Quang3"));
 
 
 
@@ -92,7 +92,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         User loggedInUser = validateUser(edtUserName.getText().toString(), etPassword.getText().toString());
         if (loggedInUser != null) {
             Intent intent = new Intent(this, BettingActivity.class);
-            intent.putExtra("username", loggedInUser.getUsername());
+            intent.putExtra("name", loggedInUser.getName());
             intent.putExtra("balance", loggedInUser.getBalance());
             startActivity(intent);
         } else {

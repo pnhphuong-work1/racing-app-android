@@ -33,6 +33,20 @@ public class BettingActivity extends AppCompatActivity {
 
         setChooseHorseEvent();
 
+        Intent intent = getIntent();
+
+        // Retrieve the data passed through the Intent
+        String userLogin = intent.getStringExtra("name");
+         int balanceLogin = intent.getIntExtra("balance",0); // second argument is the default value
+
+        // Now you can use the username and balance
+        // For example, display them in a TextView or use them for logic
+         userName = findViewById(R.id.userName);
+        balanceText = findViewById(R.id.balance);
+
+        userName.setText("Name: " +userLogin);
+        balanceText.setText("Balance :" +String.valueOf(balanceLogin));
+
         startButton.setOnClickListener(v -> {
             betHorse();
             CheckBalance();
@@ -40,6 +54,8 @@ public class BettingActivity extends AppCompatActivity {
     }
 
     private void Projecting() {
+
+
         intent = new Intent(this, RacingActivity.class);
         horse1 = findViewById(R.id.horse1);
         horse2 = findViewById(R.id.horse2);
