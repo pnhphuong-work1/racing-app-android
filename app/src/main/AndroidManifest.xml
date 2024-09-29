@@ -17,17 +17,17 @@
             android:exported="false">
 
         </activity>
-        <activity
+   <!--     <activity
             android:name=".RacingActivity"
             android:exported="false">
 
-        </activity>
+        </activity>-->
         <activity
             android:name=".BettingActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".RacingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
