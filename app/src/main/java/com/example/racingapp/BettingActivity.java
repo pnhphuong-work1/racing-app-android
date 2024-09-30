@@ -1,5 +1,7 @@
 package com.example.racingapp;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.racingapp.services.BackgroundMusicService;
 
 import java.util.HashMap;
 
@@ -23,7 +27,7 @@ public class BettingActivity extends AppCompatActivity {
     private Button startButton;
     private int balance;
     private Intent intent;
-    private String username;
+    private String username, loginUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,21 +35,23 @@ public class BettingActivity extends AppCompatActivity {
         setContentView(R.layout.betting_view);
         Projecting();
 
+        //Check if the music service is running -> if not, start it
+        if(!isMyServiceRunning(BackgroundMusicService.class))
+            startService(new Intent(BettingActivity.this, BackgroundMusicService.class));
+
         setChooseHorseEvent();
 
         Intent intent = getIntent();
 
-        // Retrieve the data passed through the Intent
-        String userLogin = intent.getStringExtra("name");
-         int balanceLogin = intent.getIntExtra("balance",0); // second argument is the default value
+        // Retrieve the data passed through Intent
+        loginUser = intent.getStringExtra("name");
+        int balanceLogin = intent.getIntExtra("balance", 0);
 
-        // Now you can use the username and balance
-        // For example, display them in a TextView or use them for logic
-         userName = findViewById(R.id.userName);
+        userName = findViewById(R.id.userName);
         balanceText = findViewById(R.id.balance);
 
-        userName.setText("Name: " +userLogin);
-        balanceText.setText("Balance :" +String.valueOf(balanceLogin));
+        userName.setText("Name: " + loginUser);
+        balanceText.setText("Balance : " + balanceLogin);
 
         startButton.setOnClickListener(v -> {
             betHorse();
@@ -54,8 +60,6 @@ public class BettingActivity extends AppCompatActivity {
     }
 
     private void Projecting() {
-
-
         intent = new Intent(this, RacingActivity.class);
         horse1 = findViewById(R.id.horse1);
         horse2 = findViewById(R.id.horse2);
@@ -150,6 +154,7 @@ public class BettingActivity extends AppCompatActivity {
 
     private void MoveToRace() {
         intent.putExtra("balance", balance);
+        intent.putExtra("name", loginUser);
         intent.putExtra("selectedHorse", selectedHorse);
         startActivity(intent);
     }
@@ -160,5 +165,15 @@ public class BettingActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

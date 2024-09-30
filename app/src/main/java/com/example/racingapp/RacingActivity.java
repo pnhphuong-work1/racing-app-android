@@ -9,6 +9,8 @@ import android.widget.SeekBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.example.racingapp.services.GameMusicService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +19,9 @@ public class RacingActivity extends AppCompatActivity {
     SeekBar horse1, horse2, horse3;
     Button startButton;
     HashMap<Integer,Integer> selectedHorse = new HashMap<>();
-    int betResult = 0;
     final ArrayList<Integer> raceOrder = new ArrayList<>(); // Lưu thứ tự các con ngựa
+    int betResult = 0, balance;
+    String username;
 
 
     @Override
@@ -38,6 +41,9 @@ public class RacingActivity extends AppCompatActivity {
         horse1.setProgress(0);
         horse2.setProgress(0);
         horse3.setProgress(0);
+
+        startService(new Intent(RacingActivity.this, GameMusicService.class));
+
         betResult = 0;
         //Start the timer
         final CountDownTimer timer = new CountDownTimer(30000, 300) {
@@ -49,10 +55,10 @@ public class RacingActivity extends AppCompatActivity {
                 horse1.setProgress(horse1.getProgress() + distanceHorse1);
                 horse2.setProgress(horse2.getProgress() + distanceHorse2);
                 horse3.setProgress(horse3.getProgress() + distanceHorse3);
-                Log.d("RaceDebug", "Race Order Size: " + raceOrder.size() +
-                        ", Horse 1: " + horse1.getProgress() +
-                        ", Horse 2: " + horse2.getProgress() +
-                        ", Horse 3: " + horse3.getProgress());
+//                Log.d("RaceDebug", "Race Order Size: " + raceOrder.size() +
+//                        ", Horse 1: " + horse1.getProgress() +
+//                        ", Horse 2: " + horse2.getProgress() +
+//                        ", Horse 3: " + horse3.getProgress());
              /*   if (horse1.getProgress() >= horse1.getMax()) {
                     int res = finishRace(1);
                     Toast.makeText(RacingActivity.this
@@ -72,18 +78,18 @@ public class RacingActivity extends AppCompatActivity {
 
                 if (horse1.getProgress() >= horse1.getMax() && !raceOrder.contains(1)) {
                     raceOrder.add(1); // Ngựa 1 về đích
-                    Toast.makeText(RacingActivity.this
-                            , "black Horse  wins, ", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RacingActivity.this
+//                            , "Black horse finished", Toast.LENGTH_SHORT).show();
                 }
                 if (horse2.getProgress() >= horse2.getMax() && !raceOrder.contains(2)) {
                     raceOrder.add(2); // Ngựa 2 về đích
-                    Toast.makeText(RacingActivity.this
-                            , "White Horse 2 wins, ", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RacingActivity.this
+//                            , "White horse finished", Toast.LENGTH_SHORT).show();
                 }
                 if (horse3.getProgress() >= horse3.getMax() && !raceOrder.contains(3)) {
                     raceOrder.add(3); // Ngựa 3 về đích
-                    Toast.makeText(RacingActivity.this
-                            , " Brown Horse 3 wins, ", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RacingActivity.this
+//                            , " Brown horse finished", Toast.LENGTH_SHORT).show();
                 }
 
                 if (raceOrder.size() == 3) { // Khi tất cả ngựa đã về đích
@@ -94,13 +100,15 @@ public class RacingActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-
             }
         };
         timer.start();
     }
 
     private void  finishRace(ArrayList<Integer> raceOrder){
+        //Stop the music service
+        stopService(new Intent(RacingActivity.this, GameMusicService.class));
+
         for (Map.Entry<Integer, Integer> entry : selectedHorse.entrySet()){
             if(entry.getKey() == raceOrder.get(0))
                 betResult += entry.getValue();
@@ -110,6 +118,8 @@ public class RacingActivity extends AppCompatActivity {
         startButton.setEnabled(true);
         Intent intent = new Intent(RacingActivity.this, MainActivity.class);
         intent.putExtra("betResult", betResult);
+        intent.putExtra("balance", balance);
+        intent.putExtra("name", username);
         intent.putExtra("firstPlace", raceOrder.get(0));
         intent.putExtra("secondPlace", raceOrder.get(1));
         intent.putExtra("thirdPlace", raceOrder.get(2));
@@ -119,15 +129,26 @@ public class RacingActivity extends AppCompatActivity {
     }
 
     private void Projecting(){
-        Intent intent = getIntent();
+        Intent receivedIntent = getIntent();
 
         //Find the horse views
         horse1 = findViewById(R.id.horse1);
         horse2 = findViewById(R.id.horse2);
         horse3 = findViewById(R.id.horse3);
-        selectedHorse.put(1,100);
-        selectedHorse.put(2,200);
-        selectedHorse.put(3,500);
+
+        HashMap<Integer,Integer> receivedBetInfo =
+                (HashMap<Integer, Integer>) receivedIntent.getSerializableExtra("selectedHorse");
+        if(receivedBetInfo != null){
+            selectedHorse = receivedBetInfo;
+        }
+        balance = receivedIntent.getIntExtra("balance", 0);
+        if(balance == 0) {
+            //Some error handling here
+        }
+        username = receivedIntent.getStringExtra("name");
+        if(username == null){
+            username = "user";
+        }
 
         startButton = findViewById(R.id.btn_start);
     }

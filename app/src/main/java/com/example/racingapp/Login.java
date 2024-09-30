@@ -24,7 +24,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private EditText edtUserName;
     private EditText etPassword;
     private Button btnSignin;
-    private  final String REQUIRE ="Require";
+    private final String REQUIRE = "Require";
 
     private List<User> userList = new ArrayList<>();
 
@@ -35,19 +35,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
 
 
-        edtUserName =findViewById(R.id.username);
-        etPassword =findViewById(R.id.password);
+        edtUserName = findViewById(R.id.username);
+        etPassword = findViewById(R.id.password);
         //NotAccountyet =findViewById(R.id.NotAccountyet);
-        btnSignin =findViewById(R.id.SignInLoginPage);
-     btnSignin.setOnClickListener(this);
-
-
-
-        userList.add(new User("user1", "password1", 100,"Quang"));
-        userList.add(new User("user2", "password2", 200,"Quang2"));
-        userList.add(new User("user3", "password3", 300,"Quang3"));
-
-
+        btnSignin = findViewById(R.id.SignInLoginPage);
+        btnSignin.setOnClickListener(this);
+        userList.add(new User("user1", "password1", 1000, "Quang"));
+        userList.add(new User("user2", "password2", 2000, "Quang2"));
+        userList.add(new User("user3", "password3", 3000, "Quang3"));
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.LoginPage), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -58,24 +53,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-            BettingForm(); // Call your sign-in method here
-
-
+        BettingForm(); // Call your sign-in method here
     }
-    private  boolean checkInput (){
-        if (TextUtils.isEmpty(edtUserName.getText().toString())){
+
+    private boolean checkInput() {
+        if (TextUtils.isEmpty(edtUserName.getText().toString())) {
             edtUserName.setError(REQUIRE);
             return false;
 
         }
-        if(TextUtils.isEmpty(etPassword.getText().toString())){
+        if (TextUtils.isEmpty(etPassword.getText().toString())) {
             etPassword.setError(REQUIRE);
             return false;
         }
-        return  true;
+        return true;
 
 
     }
+
     private User validateUser(String username, String password) {
         for (User user : userList) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
@@ -86,7 +81,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void BettingForm() {
-        if(!checkInput()){
+        if (!checkInput()) {
             return;
         }
         User loggedInUser = validateUser(edtUserName.getText().toString(), etPassword.getText().toString());
