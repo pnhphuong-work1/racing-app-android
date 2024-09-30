@@ -1,6 +1,7 @@
 package com.example.racingapp;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,15 +10,13 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
     int betResult, balance, firstPlace, secondPlace, thirdPlace;
     String username;
     Button btnRestart, btnExit;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
         Projecting();
 
-        // Set tên và hình ảnh của ngựa về nhất
+        // Set hình ảnh của ngựa về nhất
         TextView tv1stPlace = findViewById(R.id.tv1stPlace);
-        tv1stPlace.setText("Horse " + firstPlace); // Display horse number for 1st place
         tv1stPlace.setBackgroundResource(getHorseImage(firstPlace)); // Set corresponding horse image
-        // Set tên và hình ảnh của ngựa về nhì
+        // Set hình ảnh của ngựa về nhì
         TextView tv2ndPlace = findViewById(R.id.tv_2nd_place);
-        tv2ndPlace.setText("Horse " + secondPlace);
         tv2ndPlace.setBackgroundResource(getHorseImage(secondPlace));
-        // Set tên và hình ảnh của ngựa về ba
+        // Set hình ảnh của ngựa về ba
         TextView tv3rdPlace = findViewById(R.id.tv_3rd_place);
-        tv3rdPlace.setText("Horse " + thirdPlace);
         tv3rdPlace.setBackgroundResource(getHorseImage(thirdPlace));
 
         // Hiển thị kết quả cá cược
@@ -47,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         // Hiển thị số dư hiện tại
         TextView currentBalance = findViewById(R.id.current_balance);
         currentBalance.setText("Balance: "+balance);
+
+        if (betResult > 0) {
+            playSound(R.raw.win_sound);
+        } else {
+            playSound(R.raw.lose_sound);
+        }
 
         int finalBalance = balance;
         btnRestart.setOnClickListener(view -> {
@@ -58,12 +60,11 @@ public class MainActivity extends AppCompatActivity {
           startActivity(intent);
           finish();
       });
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Move the task to the back
-                MainActivity.this.moveTaskToBack(true);
-            }
+        btnExit.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(intent);
         });
     }
 
@@ -89,5 +90,20 @@ public class MainActivity extends AppCompatActivity {
         firstPlace = getIntent().getIntExtra("firstPlace", 0);
         secondPlace = getIntent().getIntExtra("secondPlace", 0);
         thirdPlace = getIntent().getIntExtra("thirdPlace", 0);
+    }
+    private void playSound(int soundResource) {
+        // Stop any existing media player before starting a new one
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+
+        mediaPlayer = MediaPlayer.create(this, soundResource);
+        mediaPlayer.start();
+
+        // Release the media player after the sound has finished playing
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        });
     }
 }

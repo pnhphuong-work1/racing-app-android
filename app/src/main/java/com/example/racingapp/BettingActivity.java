@@ -36,7 +36,7 @@ public class BettingActivity extends AppCompatActivity {
         Projecting();
 
         //Check if the music service is running -> if not, start it
-        if(!isMyServiceRunning(BackgroundMusicService.class))
+        if(! isMyServiceRunning(BackgroundMusicService.class))
             startService(new Intent(BettingActivity.this, BackgroundMusicService.class));
 
         setChooseHorseEvent();
@@ -117,17 +117,11 @@ public class BettingActivity extends AppCompatActivity {
     }
 
     private void setChooseHorseEvent() {
-        horse1.setOnClickListener(v -> {
-            betAmount1.setEnabled(horse1.isChecked());
-        });
+        horse1.setOnClickListener(v -> betAmount1.setEnabled(horse1.isChecked()));
 
-        horse2.setOnClickListener(v -> {
-            betAmount2.setEnabled(horse2.isChecked());
-        });
+        horse2.setOnClickListener(v -> betAmount2.setEnabled(horse2.isChecked()));
 
-        horse3.setOnClickListener(v -> {
-            betAmount3.setEnabled(horse3.isChecked());
-        });
+        horse3.setOnClickListener(v -> betAmount3.setEnabled(horse3.isChecked()));
     }
 
     private void chooseHorse(int horse, int amount) {

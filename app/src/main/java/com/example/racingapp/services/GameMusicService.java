@@ -21,12 +21,11 @@ public class GameMusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        randomSound = (int) (Math.random() * 10);
+        randomSound = (int) (Math.random()* 5);
         if (randomSound > 5) mediaPlayer = MediaPlayer.create(this, R.raw.racing_sound_1);
         if (randomSound <= 5) mediaPlayer = MediaPlayer.create(this, R.raw.racing_sound_2);
         mediaPlayer.start();
         return super.onStartCommand(intent,flags,startId);
-        //return START_STICKY;
     }
 
     @Override
