@@ -10,14 +10,14 @@
         android:id="@+id/horse1"
         android:layout_width="384dp"
         android:layout_height="100dp"
-        android:thumb="@drawable/horse1"
         android:elevation="10dp"
+        android:thumb="@drawable/horse1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintVertical_bias="0.212" />
 
     <SeekBar
         android:id="@+id/horse3"
@@ -25,14 +25,14 @@
         android:layout_height="100dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="16dp"
-        android:thumb="@drawable/horse3"
         android:elevation="10dp"
+        android:thumb="@drawable/horse3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line2"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <SeekBar
         android:id="@+id/horse2"
