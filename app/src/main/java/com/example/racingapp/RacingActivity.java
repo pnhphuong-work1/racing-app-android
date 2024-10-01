@@ -43,7 +43,7 @@ public class RacingActivity extends AppCompatActivity {
 
         betResult = 0;
         //Start the timer
-        final CountDownTimer timer = new CountDownTimer(30000, 300) {
+        final CountDownTimer timer = new CountDownTimer(30000, 600) {
             @Override
             public void onTick(long l) {
                 int distanceHorse1 = (int) (Math.random() * 10);
